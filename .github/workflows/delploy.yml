@@ -3,7 +3,7 @@ name: Website Deployment
 on:
   push:
     branches:
-      - main  # Trigger when there is a push to the main branch
+      - main
 
 jobs:
   notify:
@@ -19,5 +19,5 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repository: AbdiMD/orange-hrm_pw_js  # The automation repo
+        repository: AbdiMD/orange-hrm_pw_js
         event-type: deploy
