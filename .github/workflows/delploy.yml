@@ -19,5 +19,5 @@ jobs:
       uses: peter-evans/repository-dispatch@v3
       with:
         token: ${{ secrets.AMD_PAT_TOKEN }}
-        repository: AbdiMD/orange-hrm_pw_js
+        repository: AbdiMD/mim-app_pw_js
         event-type: deploy
