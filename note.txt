@@ -1,0 +1,10 @@
+Todo:
+
+1. Dashboard using Graph (show data of student each class etc.) --DONE
+2. User Management --IN PROGRESS
+    - Login --DONE (using session)
+    - Logout --TODO
+    - Access for specific role --TODO
+3. Add status to siswa (pending, active, rejected, etc.)
+4. Add feature for 'Tugas' (generate new object which has all student selected with option Pending, Done)
+5. Add feature Kelas management (assign wali kelas, posisi duduk, tugas, nilai, dll)

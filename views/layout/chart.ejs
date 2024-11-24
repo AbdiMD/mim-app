@@ -1,0 +1,166 @@
+<script>
+    const totalSiswa = document.getElementById('totalSiswa');
+
+    fetch('/data').then(response => response.json())
+        .then(data => {
+            // Extract counts for each kelas
+            const counts = [
+                data.kelas1,
+                data.kelas2,
+                data.kelas3,
+                data.kelas4,
+                data.kelas5,
+                data.kelas6
+            ];
+
+            new Chart(totalSiswa, {
+                type: 'pie',
+                data: {
+                labels: ['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'],
+                datasets: [{
+                    label: 'Total',
+                    data: counts,
+                    borderWidth: 1
+                }]
+                },
+                options: {
+                }
+            })    
+    });
+
+
+    fetch('/dataPerKelas').then(response => response.json())
+        .then(data => {
+
+            const kelas1 = document.getElementById('kelas1');
+            new Chart(kelas1, {
+                type: 'pie',
+                data: {
+                labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    label: 'Total',
+                    data: [data.kelas1.laki, data.kelas1.perempuan],
+                    borderWidth: 1
+                }]
+                },
+                options: {
+                    plugins: {
+                        subtitle: {
+                            display: true,
+                            text: 'Kelas 1',
+                        },
+                    }
+                }
+            });
+
+            const kelas2 = document.getElementById('kelas2');
+
+            new Chart(kelas2, {
+                type: 'pie',
+                data: {
+                    labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    label: 'Total',
+                    data: [data.kelas2.laki, data.kelas2.perempuan],
+                    borderWidth: 1
+                }]
+                },
+                options: {
+                    plugins: {
+                        subtitle: {
+                            display: true,
+                            text: 'Kelas 2',
+                        },
+                    }
+                }
+            });
+
+            const kelas3 = document.getElementById('kelas3');
+
+            new Chart(kelas3, {
+                type: 'pie',
+                data: {
+                    labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    label: 'Total',
+                    data: [data.kelas3.laki, data.kelas3.perempuan],
+                    borderWidth: 1
+                }]
+                },
+                options: {
+                    plugins: {
+                        subtitle: {
+                            display: true,
+                            text: 'Kelas 3',
+                        },
+                    }
+                }
+            });
+
+            const kelas4 = document.getElementById('kelas4');
+
+            new Chart(kelas4, {
+                type: 'pie',
+                data: {
+                    labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    label: 'Total',
+                    data: [data.kelas4.laki, data.kelas4.perempuan],
+                    borderWidth: 1
+                }]
+                },
+                options: {
+                    plugins: {
+                        subtitle: {
+                            display: true,
+                            text: 'Kelas 4',
+                        },
+                    }
+                }
+            });
+
+            const kelas5 = document.getElementById('kelas5');
+
+            new Chart(kelas5, {
+                type: 'pie',
+                data: {
+                    labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    label: 'Total',
+                    data: [data.kelas5.laki, data.kelas5.perempuan],
+                    borderWidth: 1
+                }]
+                },
+                options: {
+                    plugins: {
+                        subtitle: {
+                            display: true,
+                            text: 'Kelas 5',
+                        },
+                    }
+                }
+            });
+
+            const kelas6 = document.getElementById('kelas6');
+
+            new Chart(kelas6, {
+                type: 'pie',
+                data: {
+                    labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    label: 'Total',
+                    data: [data.kelas6.laki, data.kelas6.perempuan],
+                    borderWidth: 1
+                }]
+                },
+                options: {
+                    plugins: {
+                        subtitle: {
+                            display: true,
+                            text: 'Kelas 6',
+                        },
+                    }
+                }
+            });
+        });
+</script>

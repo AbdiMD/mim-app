@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include('./layout/bootstrap_css') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <%- include('./layout/nav') %>
+    
+    <div class="container mt-2 mb-3">
+        <button onclick="goBack()" class="btn btn-danger">Kembali</button>
+        <br>
+        <h2 class="text-center">Edit Siswa</h2>
+        <br>
+        <div class="container form-control">
+            <form action="/siswa?_method=PUT" method="post" class="row g-3">
+                <input type="hidden" name="_id" value="<%= siswa._id %>">
+                <div class="col-6">
+                    <label for="nama" class="form-label">Nama: </label>
+                    <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukkan nama lengkap" required value="<%= siswa.nama %>">
+                </div>
+                <div class="col-6">
+                    <label for="dob" class="form-label">Tanggal Lahir: </label>
+                    <input type="date" name="dob" id="dob" class="form-control" required value="<%= siswa.dob ? siswa.dob.toISOString().split('T')[0] : '' %>">
+                </div>
+                <div class="col-12">
+                    <label for="alamat" class="form-label">Alamat: </label>
+                    <textarea name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat lengkap siswa" required><%= siswa.alamat %></textarea>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="gender" class="form-label">Jenis kelamin: </label>
+                        <select name="gender" id="gender" class="form-control" value="<%= siswa.gender %>">
+                            <option value="L" <%= siswa.gender === 'L' ? 'selected' : '' %>>Laki-laki</option>
+                            <option value="P" <%= siswa.gender === 'P' ? 'selected' : '' %>>Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="kelas" class="form-label">Kelas: </label>
+                        <select name="kelas" id="kelas" class="form-control" value="<%= siswa.kelas %>">
+                            <% kelas.forEach(kelas => { %>
+                                <option value="<%= kelas %>" <%= siswa.kelas === kelas ? 'selected' : '' %>><%= kelas %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="note" class="form-label">Keteragan Tambahan: </label>
+                        <textarea name="note" id="note" class="form-control" placeholder="Tambahkan keterangan untuk siswa..."><%= siswa.note %></textarea>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="text-end">
+                        <button type="submit" id="update" onclick="updateSiswa()" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <%- include('./layout/bootstrap_script') %>
+    <Script>
+        function goBack() {
+            window.history.back();
+        }
+    </Script>
+    <%- include('./layout/swal') %>
+</body>
+</html>

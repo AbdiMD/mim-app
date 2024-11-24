@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Siswa</title>
+    <%- include('./layout/bootstrap_css') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <%- include('./layout/nav') %>
+    <div class="container">
+        <h1>Daftar Siswa</h1>
+        <br>
+        <div class="text-end">
+            <a href="/siswa/tambah-siswa" class="btn btn-primary">Tambah Siswa</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">alamat</th>
+                    <th scope="col">L/P</th>
+                    <th scope="col">Tanggal Lahir</th>
+                    <th scope="col">Kelas</th>
+                    <th scope="col">Informasi Tambahan</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% let index = 1 %>
+                <% siswa.forEach(siswa => { %>
+                    <tr>
+                        <th scope="row"><%= index %></th>
+                        <td><%= siswa.nama %></td>
+                        <td><%= siswa.alamat %></td>
+                        <td><%= siswa.gender %></td>
+                        <td><%= siswa.dob.toLocaleDateString('id-ID', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }) %></td>
+                        <td><%= siswa.kelas %></td>
+                        <td><%= siswa.note %></td>
+                        <td>
+                            <button class="btn btn-primary"><i class="bi bi-eye-fill"></i></button>
+                            <a class="btn btn-secondary" href="/siswa/<%= siswa._id %>"><i class="bi bi-person-fill-gear"></i></a>
+                            <form id="delete_<%= siswa._id %>" action="/siswa" method="post">
+                                <input type="hidden" name="_id" value="<%= siswa._id %>">
+                                <button class="btn btn-danger" type="button" id="delete" onclick="deleteConfirm(document.getElementById('delete_<%= siswa._id %>'))"><i class="bi bi-trash-fill"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                <% index++ %>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+    
+    <%- include('./layout/bootstrap_script') %>
+    <%- include('./layout/swal') %>
+</body>
+</html>

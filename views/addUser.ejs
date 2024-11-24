@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include('./layout/bootstrap_css') %>
+</head>
+<body>
+    <%- include('./layout/nav') %>
+    <br>
+    
+    <div class="container">
+        <h2>Add a User</h2>
+        <form action="/user" method="post">
+            <label for="nama" class="form-label">Nama: </label>
+            <input type="text" name="nama" id="nama" class="form-control">
+            <label for="noHP" class="form-label">No. HP </label>
+            <input type="text" name="noHP" id="noHP" class="form-control">
+            <label for="email" class="form-label">Email: </label>
+            <input type="text" name="email" id="email" class="form-control">
+            <label for="userType" class="form-label">User Type </label>
+            <select name="userType" id="userType" class="form-control">
+                <% userTypeName.forEach(type => { %>
+                    <option value="<%= type %>"><%= type %></option>
+                <% }) %>
+            </select>
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password">
+            <br>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            
+        </form>
+    </div>
+
+
+
+    <%- include('./layout/bootstrap_script') %>
+</body>
+</html>

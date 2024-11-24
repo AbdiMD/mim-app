@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include('./layout/bootstrap_css') %>
+</head>
+<body>
+    <%- include('./layout/nav') %>
+    <div class="container">
+        <h2>User Management Page</h2>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No. </th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>User Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let index = 1 %>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= index++ %></td>
+                    <td><%= user.nama %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.userType %></td>
+                    <td></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    
+
+
+    <%- include('./layout/bootstrap_script') %>
+</body>
+</html>

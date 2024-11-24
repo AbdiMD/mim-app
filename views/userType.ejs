@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include('./layout/bootstrap_css') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <%- include('./layout/nav') %>
+    <div class="container">
+        <h1>List of user types</h1>
+        <br>
+        <div class="text-end">
+            <a href="/usertype/add" class="btn btn-primary">Add User Type</a>
+        </div>
+        <br>
+        <table class="table">
+            <% let index = 1 %>
+            <thead>
+                <tr>
+                    <th>No. </th>
+                    <th>User Type</th>
+                    <th>Description</th>
+                    <th>User Management</th>
+                    <th>User Type Management</th>
+                    <th>Siswa Management</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% userType.forEach(userType => { %>
+                    <tr>
+                        <td><%= index++ %></td>
+                        <td><%= userType.usertype %></td>
+                        <td><%= userType.description %></td>
+                        <td><% if (userType.permission.user_management === true) { %>
+                                <p class="btn-sm btn-success text-center">Allowed</p>
+                            <% } else { %>
+                                <p class="btn-sm btn-danger text-center">Not Allowed</p>
+                            <% } %>
+                        </td>
+                        <td><% if (userType.permission.usertype_management === true) { %>
+                                <p class="btn-sm btn-success text-center">Allowed</p>
+                            <% } else { %>
+                                <p class="btn-sm btn-danger text-center">Not Allowed</p>
+                            <% } %></td>
+                        <td><% if (userType.permission.siswa_management === true) { %>
+                                <p class="btn-sm btn-success text-center">Allowed</p>
+                            <% } else { %>
+                                <p class="btn-sm btn-danger text-center">Not Allowed</p>
+                            <% } %></td>
+                        <td>
+                            <form id="delete_<%= userType._id %>" action="/usertype" method="post">
+                                <input type="hidden" name="_id" value="<%= userType._id %>">
+                                <button type="button" class="btn btn-danger" onclick="deleteUserType(document.getElementById('delete_<%= userType._id %>'))"><i class="bi bi-trash-fill"></i></button>
+                            </form>
+                            <a href="/usertype/<%= userType._id %>" class="btn btn-primary"><i class="bi bi-gear-fill"></i></a>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <%- include('./layout/swal') %>
+    <%- include('./layout/bootstrap_script') %>
+    
+</body>
+</html>

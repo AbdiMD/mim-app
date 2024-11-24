@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><% title %></title>
+    <%- include('./layout/bootstrap_css') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <%- include('./layout/nav') %>
+    <div class="container mt-3">
+        <h2>Edit User type</h2>
+        <br>
+        <form id="update_<%= userType._id %>" action="/usertype" method="post">
+            <div class="row">
+                <div>
+                    <input type="hidden" name="_id" value="<%= userType._id %>">
+                </div>
+                <div>
+                    <label for="usertype" class="form-label">User type name</label>
+                    <input type="text" id="usertype" name="usertype" class="form-control" required placeholder="Fill user type name" value="<%= userType.usertype %>">
+                </div>
+                <div>
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" cols="30" rows="5" class="form-control" placeholder="User type description. . ."><%= userType.description %></textarea>
+                </div>
+                <br>
+                <br>
+                <div class="row mt-3">
+                    <h6>Permission</h6>
+                    <div class="permision">
+                        <div class="form-check form-switch">
+                            <label for="user_management" class="form-check-label">User Management</label>
+                            <input type="checkbox" class="form-check-input" name="permission[user_management]" id="user_management" value="true" <%= userType.permission.user_management ? 'checked' : '' %>>
+                        </div>
+                        <div class="form-check form-switch">
+                            <label for="usertype_management" class="form-check-label">User Type Management</label>
+                            <input type="checkbox" class="form-check-input" name="permission[usertype_management]" id="usertype_management" value="true" <%= userType.permission.usertype_management ? 'checked' : '' %>>
+                        </div>
+                        <div class="form-check form-switch">
+                            <label for="siswa_management" class="form-check-label">Siswa Management</label>
+                            <input type="checkbox" class="form-check-input" name="permission[siswa_management]" id="siswa_management" value= "true" <%= userType.permission.siswa_management ? 'checked' : '' %>>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-6 text-start">
+                    <a href="/usertype" class="btn btn-danger">Cancel</a>
+                </div>
+                <div class="col-6 text-end">
+                    <button type="button" class="btn btn-primary" onclick="updateUserType(document.getElementById('update_<%= userType._id %>'))">Submit</button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+    
+
+
+    <%- include('./layout/swal') %>
+    <%- include('./layout/bootstrap_script') %>
+</body>
+</html>

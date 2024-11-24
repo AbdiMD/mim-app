@@ -1,0 +1,107 @@
+<script>
+    document.getElementById('submit').addEventListener('click', function(){
+        Swal.fire({
+            title: "Mantap!",
+            text: `Siswa berhasil ditambahkan`,
+            imageUrl: "../image01.jpg",
+            imageWidth: 400,
+            imageHeight: 220,
+            imageAlt: "Custom image"
+        }).then(()=> {
+            window.location.href = '/siswa'
+        })
+    });
+
+    function deleteConfirm(form){
+        Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.method = "POST";
+                form.action = "/siswa?_method=DELETE";
+
+                form.submit();
+
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                }).then(() => {
+                    location.reload()
+                }) 
+            }
+        });
+    };
+
+    function updateSiswa(){
+        Swal.fire({
+            title: "Mantap!",
+            text: `Siswa berhasil diupdate`,
+            imageUrl: "../image01.jpg",
+            imageWidth: 400,
+            imageHeight: 220,
+            imageAlt: "Custom image"
+        }).then(()=> {
+            window.location.href = '/siswa'
+        })
+    };
+
+    function deleteUserType(form){
+        console.log('test kesini')
+        Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.method = "POST";
+                form.action = "/usertype?_method=DELETE";
+                form.submit();
+
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = '/usertype'
+                }) 
+            }
+        });
+    };
+
+    function updateUserType(form){
+        Swal.fire({
+        title: "Are you sure?",
+        text: "This user type will be updated based on your modification!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Update it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.method = "POST";
+                form.action = "/usertype?_method=PUT";
+                form.submit();
+
+                Swal.fire({
+                    title: "Updated!",
+                    text: "This user type has been updated",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = '/usertype'
+                }) 
+            }
+        });
+    };
+</script>
