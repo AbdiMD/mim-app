@@ -12,11 +12,11 @@ jobs:
     steps:
     # Step 1: Checkout Website Repository
     - name: Checkout Website Repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Step 2: Dispatch Event to Automation Repository
     - name: Dispatch to Automation Repository
-      uses: peter-evans/repository-dispatch@v2
+      uses: peter-evans/repository-dispatch@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         repository: AbdiMD/orange-hrm_pw_js
