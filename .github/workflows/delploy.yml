@@ -1,0 +1,23 @@
+name: Website Deployment
+
+on:
+  push:
+    branches:
+      - main  # Trigger when there is a push to the main branch
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout Website Repository
+    - name: Checkout Website Repo
+      uses: actions/checkout@v3
+
+    # Step 2: Dispatch Event to Automation Repository
+    - name: Dispatch to Automation Repository
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: AbdiMD/orange-hrm_pw_js  # The automation repo
+        event-type: deploy  # Custom event name to trigger the automation workflow
