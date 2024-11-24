@@ -20,4 +20,4 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         repository: AbdiMD/orange-hrm_pw_js  # The automation repo
-        event-type: deploy  # Custom event name to trigger the automation workflow
+        event-type: deploy
