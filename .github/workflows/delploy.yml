@@ -18,6 +18,6 @@ jobs:
     - name: Dispatch to Automation Repository
       uses: peter-evans/repository-dispatch@v3
       with:
-        token: ${{ secrets.PAT_TOKEN }}
+        token: ${{ secrets.AMD_PAT_TOKEN }}
         repository: AbdiMD/orange-hrm_pw_js
         event-type: deploy
