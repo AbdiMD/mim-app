@@ -40,4 +40,3 @@ jobs:
         token: ${{ secrets.AMD_PAT_TOKEN }}
         repository: AbdiMD/mim-app_pw_js
         event-type: deploy
-        client-payload: '{"baseUrl": "http://localhost:3000"}'
