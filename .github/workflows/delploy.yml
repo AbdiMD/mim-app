@@ -1,4 +1,4 @@
-name: Website Deployment
+name: CI/CD Workflow
 
 on:
   push:
@@ -18,13 +18,13 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-    # Step 3: Build or Serve the Website Locally
+    # Step 3: Start the Local Server
     - name: Start Local Server
       run: npm run start &
       env:
         PORT: 3000
 
-    # Step 4: Wait for the Server to Start
+    # Step 4: Wait for the Server
     - name: Wait for Local Server
       run: |
         for i in {1..30}; do
@@ -33,10 +33,41 @@ jobs:
           sleep 2
         done
 
-    # Step 5: Dispatch Event to Automation Repository
-    - name: Dispatch to Automation Repository
-      uses: peter-evans/repository-dispatch@v3
+  test:
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+    # Step 1: Checkout Automation Repository
+    - name: Checkout Automation Repo
+      uses: actions/checkout@v4
       with:
-        token: ${{ secrets.AMD_PAT_TOKEN }}
         repository: AbdiMD/mim-app_pw_js
-        event-type: deploy
+        token: ${{ secrets.AMD_PAT_TOKEN }}
+
+    # Step 2: Install System Dependencies
+    - name: Install Playwright Dependencies
+      run: npx playwright install-deps
+
+    # Step 3: Install Dependencies
+    - name: Install Dependencies
+      run: npm install
+
+    # Step 4: Install Browser
+    - name: Install Browser
+      run: npx playwright install
+
+    # Step 5: Run Playwright Tests
+    - name: Run Playwright Tests
+      run: npx playwright test
+
+    # Step 6: Generate Allure Report
+    - name: Generate Allure Report
+      run: allure generate allure-results --clean -o allure-report
+
+    # Step 7: Upload Allure Report as Artifact
+    - name: Upload Allure Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-report
+        path: allure-report
