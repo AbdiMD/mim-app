@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  notify:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,10 +14,30 @@ jobs:
     - name: Checkout Website Repo
       uses: actions/checkout@v4
 
-    # Step 2: Dispatch Event to Automation Repository
+    # Step 2: Install Website Dependencies
+    - name: Install Dependencies
+      run: npm install
+
+    # Step 3: Build or Serve the Website Locally
+    - name: Start Local Server
+      run: npm run start &
+      env:
+        PORT: 3000
+
+    # Step 4: Wait for the Server to Start
+    - name: Wait for Local Server
+      run: |
+        for i in {1..30}; do
+          curl -s http://localhost:3000 && break
+          echo "Waiting for the server to start..."
+          sleep 2
+        done
+
+    # Step 5: Dispatch Event to Automation Repository
     - name: Dispatch to Automation Repository
       uses: peter-evans/repository-dispatch@v3
       with:
         token: ${{ secrets.AMD_PAT_TOKEN }}
         repository: AbdiMD/mim-app_pw_js
         event-type: deploy
+        client-payload: '{"baseUrl": "http://localhost:3000"}'
