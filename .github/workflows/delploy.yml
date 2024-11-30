@@ -32,25 +32,29 @@ jobs:
         repository: AbdiMD/mim-app_pw_js
         token: ${{ secrets.AMD_PAT_TOKEN }}
 
-    # Step 5: Install Automation Dependencies
+    # Step 5: Install System Dependencies for Playwright
+    - name: Install System Dependencies for Playwright
+      run: npx playwright install-deps
+
+    # Step 6: Install Dependencies for Automation
     - name: Install Dependencies for Automation
       run: npm install
 
-    # Step 6: Install Playwright Browsers
+    # Step 7: Install Playwright Browsers
     - name: Install Browser
       run: npx playwright install
 
-    # Step 7: Run Playwright Tests
+    # Step 8: Run Playwright Tests
     - name: Run Playwright Tests
       run: npx playwright test
 
-    # Step 8: Generate Allure Report
+    # Step 9: Generate Allure Report
     - name: Generate Allure Report
       run: |
         npm install -g allure-commandline --save-dev
         allure generate allure-results --clean -o allure-report
 
-    # Step 9: Upload Allure Report as Artifact
+    # Step 10: Upload Allure Report as Artifact
     - name: Upload Allure Report
       uses: actions/upload-artifact@v3
       with:
