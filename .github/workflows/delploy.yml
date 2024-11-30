@@ -20,7 +20,7 @@ jobs:
 
     # Step 3: Start the Local Server
     - name: Start Local Server
-      run: npm run start &
+      run: node app.js &
       env:
         PORT: 3000
 
