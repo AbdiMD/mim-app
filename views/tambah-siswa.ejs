@@ -16,10 +16,10 @@
         <h2 class="text-center">Tambah Siswa</h2>
         <br>
         <div class="container form-control">
-            <form action="/siswa" method="post" class="row g-3">
+            <form action="/siswa" method="post" class="row g-3" enctype="multipart/form-data">
                 <div class="col-12">
-                    <img id="avatarPreview" height="200px" width="200px" src="" alt="" class="rounded mx-auto d-block">
-                    <input type="file" name="avatar" id="avatar" class="rounded mx-auto d-block" onchange="previewImage(event)">
+                    <img id="profilePicturePreview" height="200px" width="200px" src="/assets/default/default_boy.png" alt="" class="rounded mx-auto d-block" style="object-fit: contain">
+                    <input type="file" name="profilePicture" id="profilePicture" class="rounded mx-auto d-block" onchange="previewImage(event)">
                 </div>
                 <div class="col-6">
                     <label for="nama" class="form-label">Nama: </label>
@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="gender" class="form-label">Jenis kelamin: </label>
-                        <select name="gender" id="gender" class="form-control">
+                        <select name="gender" id="gender" class="form-control" onchange="changeDefaultImage()">
                             <option value="L">Laki-laki</option>
                             <option value="P">Perempuan</option>
                         </select>
@@ -71,7 +71,7 @@
 
         function previewImage(event) {
             const input = event.target;
-            const img = document.getElementById('avatarPreview');
+            const img = document.getElementById('profilePicturePreview');
 
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -81,6 +81,21 @@
                 };
 
                 reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function changeDefaultImage() {
+            const gender = document.getElementById('gender').value;
+            const image = document.getElementById('profilePicturePreview');
+
+            // Change the default image based on the selected gender
+            if (image.src && !image.src.includes('/assets/default')) {
+            return; // Don't change if a custom image is uploaded
+            }
+            if (gender === 'L') {
+                image.src = '/assets/default/default_boy.png';  // Default boy image
+            } else if (gender === 'P') {
+                image.src = '/assets/default/default_girl.png';  // Default girl image
             }
         }
 

@@ -26,6 +26,10 @@ const Siswa = mongoose.model('siswa', {
     note: {
         type: String,
         required: false
+    },
+    profilePicture: {
+        type: String,
+        required: false
     }
 })
 

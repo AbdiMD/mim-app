@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <h2 class="text-center"><%= title %></h2>
         <br>
-        <div class="card form-control">
+        <div class="card form-control w-50 mx-auto">
             <form action="/login" method="post">
                 <label for="username" id="username" class="form-label">Username: </label>
                 <input type="text" id="username" name="username" class="form-control">
@@ -20,7 +20,9 @@
                 <label for="role" id="role" class="form-label">Role: </label>
                 <input type="text" id="role" name="role" class="form-control">
                 <br>
-                <button type="submit" class="btn btn-primary">LOGIN</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">LOGIN</button>
+                </div>
             </form>
         </div>
     </div>

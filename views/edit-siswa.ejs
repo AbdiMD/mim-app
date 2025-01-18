@@ -16,8 +16,14 @@
         <h2 class="text-center">Edit Siswa</h2>
         <br>
         <div class="container form-control">
-            <form action="/siswa?_method=PUT" method="post" class="row g-3">
+            <form action="/siswa?_method=PUT" method="post" class="row g-3" enctype="multipart/form-data">
                 <input type="hidden" name="_id" value="<%= siswa._id %>">
+                <div class="col-12">
+                    <img id="profilePicturePreview" height="200px" width="200px" src="<%= siswa.profilePicture ? '/uploads/' + siswa.profilePicture : (siswa.gender === 'L' 
+                    ? '/assets/default/default_boy.png' 
+                    : '/assets/default/default_girl.png') %>" alt="" class="rounded mx-auto d-block" style="object-fit: contain">
+                    <input type="file" name="profilePicture" id="profilePicture" class="rounded mx-auto d-block" onchange="previewImage(event)">
+                </div>
                 <div class="col-6">
                     <label for="nama" class="form-label">Nama: </label>
                     <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukkan nama lengkap" required value="<%= siswa.nama %>">
@@ -64,6 +70,21 @@
     <Script>
         function goBack() {
             window.history.back();
+        }
+
+        function previewImage(event) {
+            const input = event.target;
+            const img = document.getElementById('profilePicturePreview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
         }
     </Script>
     <%- include('./layout/swal') %>

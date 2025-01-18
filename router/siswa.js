@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router();
+const upload = require('../utils/upload');
 
 // *Connect DB
 require('../utils/db')
@@ -7,7 +8,15 @@ const Siswa = require('../models/siswa')
 
 //* Get list of siswa
 router.get('/', async (req,res)=>{
-    const siswa = await Siswa.find()
+    const { search } = req.query;
+
+    // Use a condition to define the query dynamically
+    const query = search
+        ? { $or: [{ nama: { $regex: search, $options: 'i' } }, { kelas: { $regex: search, $options: 'i' } }] }
+        : {};
+
+    // Fetch results based on the query
+    const siswa = await Siswa.find(query);
 
     res.render('siswa', {
         title: 'Daftar Siswa',
@@ -42,10 +51,19 @@ router.get('/:_id', async (req,res)=>{
 });
 
 //* Saving data on tambah-siswa
-router.post('/', async (req,res)=>{
+router.post('/', upload.single('profilePicture'),async (req,res)=>{
     try{
         //* Saving to db
-        const siswa = new Siswa(req.body);
+        const {nama, alamat, dob, gender, kelas, note} = req.body;
+        const siswa = new Siswa({
+            nama,
+            alamat,
+            dob,
+            gender,
+            kelas,
+            note,
+            profilePicture: req.file ? req.file.filename : null
+        });
 
         await siswa.save();
 
@@ -67,19 +85,21 @@ router.delete('/', async (req,res)=>{
 });
 
 
-router.put('/', async (req,res)=>{
+router.put('/', upload.single('profilePicture'), async (req,res)=>{
+    const {nama, alamat, dob, gender, kelas, note} = req.body;
     const siswa = await Siswa.updateOne({_id:req.body._id}, {
         $set: {
-            nama: req.body.nama,
-            dob: req.body.dob,
-            alamat: req.body.alamat,
-            gender: req.body.gender,
-            kelas: req.body.kelas,
-            note: req.body.note
+            nama,
+            alamat,
+            dob,
+            gender,
+            kelas,
+            note,
+            profilePicture: req.file ? req.file.filename : null
         }
     });
 
-    // res.redirect('/siswa')
+    res.redirect('/siswa')
 });
 
 module.exports = router;

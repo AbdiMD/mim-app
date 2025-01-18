@@ -24,10 +24,10 @@ router.get('/', (req,res) => {
 // Login route
 router.post('/', async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({nama: req.body.username});
+    const user = await User.findOne({nama: username});
 
     if (!user) {
-        return res.status(401).send('User not found');
+        return res.status(401).send('Invalid username or password');
     }
 
     if(password !== user.password){
