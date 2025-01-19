@@ -2,12 +2,12 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts')
 const Swal = require('sweetalert2')
 const methodOverride = require('method-override')
-const session = require('express-session');
 const siswaRoute = require('./router/siswa')
 const userTypeRoute = require('./router/userType')
 const userRoute = require('./router/user')
 const login = require('./router/login')
-const auth = require('./services/auth')
+const auth = require('./services/auth_jwt')
+const cookieParser = require('cookie-parser');
 
 
 const app = express();
@@ -22,7 +22,8 @@ app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}))
 
-app.use(auth.sessionConf)
+// app.use(auth.sessionConf)
+app.use(cookieParser());
 app.use(['/siswa', '/usertype', '/user'], auth.isAuth)
 
 app.use(methodOverride('_method'))
