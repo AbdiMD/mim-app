@@ -5,7 +5,8 @@ const methodOverride = require('method-override')
 const siswaRoute = require('./router/siswa')
 const userTypeRoute = require('./router/userType')
 const userRoute = require('./router/user')
-const login = require('./router/login')
+const login = require('./router/login');
+const logout = require('./router/logout');
 const auth = require('./services/auth_jwt')
 const cookieParser = require('cookie-parser');
 
@@ -31,7 +32,8 @@ app.use(methodOverride('_method'))
 app.use('/siswa', siswaRoute);
 app.use('/usertype', userTypeRoute);
 app.use('/user', userRoute);
-app.use('/login', login)
+app.use('/login', login);
+app.use('/logout', logout);
 
 
 // *Connect DB
