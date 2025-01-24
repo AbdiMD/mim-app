@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../services/auth_jwt');
 
-router.get('/logout', (req, res) => {
+router.get('/',auth.isAuth, (req, res) => {
     // Clear the JWT token cookie
-    res.clearCookie('token', token, { httpOnly: true });
-
-        // Clear JWT from localStorage
-    localStorage.removeItem('token');
-
-    // Or from sessionStorage
-    sessionStorage.removeItem('token');
+    res.clearCookie('token', { httpOnly: true });
 
 
     res.redirect('/login');

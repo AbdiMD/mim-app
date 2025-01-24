@@ -37,7 +37,24 @@ const isGuest = (req, res, next) => {
     next(); // Proceed to the next middleware or route handler
 };
 
+const attachUser = (req, res, next) => {
+    const token = req.cookies.token; // Read the token from cookies
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, 'secret'); // Verify and decode the token
+            req.user = decoded; // Attach the user data to the request object
+        } catch (err) {
+            console.error('Invalid or expired token', err);
+            req.user = null; // If the token is invalid or expired, clear the user
+        }
+    } else {
+        req.user = null; // No token means no user
+    }
+    next();
+}
+
 module.exports = {
     isAuth,
     isGuest,
+    attachUser
 };

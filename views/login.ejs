@@ -22,11 +22,9 @@
             <div class="card form-control w-50 p-3 mx-auto border border-primary border-3 rounded">
                 <form action="/login" method="post">
                     <label for="username" id="username" class="form-label">Username: </label>
-                    <input type="text" id="username" name="username" class="form-control">
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username">
                     <label for="password" id="password" class="form-label">Password: </label>
-                    <input type="password" id="password" name="password" class="form-control">
-                    <label for="role" id="role" class="form-label">Role: </label>
-                    <input type="text" id="role" name="role" class="form-control">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
                     <br>
                     <% if (typeof errorMessage !== 'undefined') { %>
                         <div class="alert alert-danger" role="alert"><%= errorMessage %></div>

@@ -7,8 +7,9 @@ const userTypeRoute = require('./router/userType')
 const userRoute = require('./router/user')
 const login = require('./router/login');
 const logout = require('./router/logout');
-const auth = require('./services/auth_jwt')
+const auth = require('./services/auth_jwt');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 
 
 const app = express();
@@ -23,12 +24,20 @@ app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}))
 
+
 // app.use(auth.sessionConf)
 app.use(cookieParser());
 app.use(['/siswa', '/usertype', '/user'], auth.isAuth)
 
 app.use(methodOverride('_method'))
 
+app.use(auth.attachUser);
+app.use((req, res, next) => {
+    res.locals.user = req.user || null; // Attach the user to res.locals
+    next();
+});
+
+// Routes
 app.use('/siswa', siswaRoute);
 app.use('/usertype', userTypeRoute);
 app.use('/user', userRoute);
@@ -38,16 +47,18 @@ app.use('/logout', logout);
 
 // *Connect DB
 require('./utils/db')
-const Siswa = require('./models/siswa')
+const Siswa = require('./models/siswa');
+const user = require('./models/user');
 
 //* Access ke home
 app.get('/', auth.isAuth, async (req,res)=>{
 
     console.log(req.body)
+    console.log(req.user)
 
     res.render('index', {
         title: 'Beranda',
-        layout: 'index',
+        layout: 'index'
     })
 });
 
