@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../services/auth')
+const auth = require('../services/auth_jwt');
+const jwt = require('jsonwebtoken');
+
 
 // *Connect DB
 require('../utils/db')
 const User = require('../models/user')
-
-
-router.use(auth.sessionConf);
 
 router.get('/admin', auth.isAuth ,(req, res) => {
     
@@ -16,7 +15,7 @@ router.get('/admin', auth.isAuth ,(req, res) => {
 
 router.get('/', (req,res) => {
     res.render('login', {
-        title: 'Login Page',
+        title: 'Login',
         layout: 'login'
     })
 });
@@ -27,14 +26,23 @@ router.post('/', async (req, res) => {
     const user = await User.findOne({nama: username});
 
     if (!user) {
-        return res.status(401).send('Invalid username or password');
+        return res.render('login', {
+            title: 'Login Page',
+            layout: 'login',
+            errorMessage: 'Invalid username or password',
+        });
     }
 
     if(password !== user.password){
-        return res.status(401).send('Invalid username or password');
+        return res.render('login', {
+            title: 'Login Page',
+            layout: 'login',
+            errorMessage: 'Invalid username or password',
+        });
     }
 
-    req.session.isAuth = true
+    const token = jwt.sign({ id: user.id, username: user.nama, role: user.userType }, 'secret', { expiresIn: '1h' });
+    res.cookie('token', token, { httpOnly: true });
     res.redirect('/')
 });
 

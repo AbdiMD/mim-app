@@ -4,30 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+
+
     <%- include('./layout/bootstrap_css') %>
 </head>
 <body>  
     
-    <div class="container mt-5">
-        <h2 class="text-center"><%= title %></h2>
-        <br>
-        <div class="card form-control w-50 mx-auto">
-            <form action="/login" method="post">
-                <label for="username" id="username" class="form-label">Username: </label>
-                <input type="text" id="username" name="username" class="form-control">
-                <label for="password" id="password" class="form-label">Password: </label>
-                <input type="password" id="password" name="password" class="form-control">
-                <label for="role" id="role" class="form-label">Role: </label>
-                <input type="text" id="role" name="role" class="form-control">
-                <br>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">LOGIN</button>
-                </div>
-            </form>
+    <div class="d-flex justify-content-between vh-100">
+        <div class="col-5 bg-primary h-auto d-inline-block d-flex">
+            <div class="align-self-center mx-auto">
+                <span style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif" class="text-white fs-1 fst-italic">MIM-APP</span>
+            </div>
         </div>
+        <div class="col-7 align-self-center">
+            <h2 class="text-center"><%= title %></h2>
+            <br>
+            <div class="card form-control w-50 p-3 mx-auto border border-primary border-3 rounded">
+                <form action="/login" method="post">
+                    <label for="username" id="username" class="form-label">Username: </label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username">
+                    <label for="password" id="password" class="form-label">Password: </label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
+                    <br>
+                    <% if (typeof errorMessage !== 'undefined') { %>
+                        <div class="alert alert-danger" role="alert"><%= errorMessage %></div>
+                    <% } %>
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">LOGIN</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        
     </div>
 
 
     <%- include('./layout/bootstrap_script') %>
+      
 </body>
 </html>
