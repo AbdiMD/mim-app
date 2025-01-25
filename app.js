@@ -7,6 +7,8 @@ const userTypeRoute = require('./router/userType')
 const userRoute = require('./router/user')
 const login = require('./router/login');
 const logout = require('./router/logout');
+const subject = require('./router/subject');
+const scholarSeason = require('./router/scholarSeason');
 const auth = require('./services/auth_jwt');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
@@ -19,6 +21,7 @@ app.listen(port, ()=>{
     console.log('express gass')
 });
 
+app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.use(express.static('public'));
@@ -27,9 +30,6 @@ app.use(express.urlencoded({extended:true}))
 
 // app.use(auth.sessionConf)
 app.use(cookieParser());
-app.use(['/siswa', '/usertype', '/user'], auth.isAuth)
-
-app.use(methodOverride('_method'))
 
 app.use(auth.attachUser);
 app.use((req, res, next) => {
@@ -38,17 +38,18 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/siswa', siswaRoute);
-app.use('/usertype', userTypeRoute);
-app.use('/user', userRoute);
+app.use('/siswa', auth.isAuth, siswaRoute);
+app.use('/usertype', auth.isAuth, userTypeRoute);
+app.use('/user', auth.isAuth, userRoute);
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/subject', auth.isAuth, subject);
+app.use('/scholarSeason', auth.isAuth, scholarSeason);
 
 
 // *Connect DB
 require('./utils/db')
 const Siswa = require('./models/siswa');
-const user = require('./models/user');
 
 //* Access ke home
 app.get('/', auth.isAuth, async (req,res)=>{

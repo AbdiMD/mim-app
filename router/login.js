@@ -8,11 +8,6 @@ const jwt = require('jsonwebtoken');
 require('../utils/db')
 const User = require('../models/user')
 
-router.get('/admin', auth.isAuth ,(req, res) => {
-    
-    res.send('Admin Dashboard');
-});
-
 router.get('/', (req,res) => {
     res.render('login', {
         title: 'Login',
