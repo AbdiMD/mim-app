@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 require('../utils/db')  
 const ScholarSeason = require('../models/scholarSeason')
 const Class = require("../models/class");
+const Subject = require('../models/subject');
 
 router.get('/', async (req,res)=>{
     const scholarSeason = await ScholarSeason.find();
@@ -91,5 +92,27 @@ router.delete('/', async (req,res)=>{
     }
 
 });
+
+router.get('/:seasonId', async (req,res)=>{
+    const { seasonId } = req.params;
+    const scholarSeason = await ScholarSeason.findOne({_id: seasonId});
+    const classes = await Class.find({seasonId: seasonId});
+    const subjects = await Subject.find();
+
+    res.render('scholarSeasonDetails', {
+        title: 'Scholar Season Details',
+        layout: 'scholarSeasonDetails',
+        scholarSeason,
+        classes,
+        subjects
+    })
+});
+
+// bikin api baru untuk mengambil data kelas kemudian fetch data untuk di display di masing2 kelas
+router.get('/classes/:seasonId', async (req, res) => {
+    const { seasonId } = req.params;
+    const classes = await Class.find({ seasonId: seasonId });
+    res.json(classes);
+  });
 
 module.exports = router;

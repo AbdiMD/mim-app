@@ -18,16 +18,18 @@ const classSchema = new Schema({
   },
   syllabus: [
     {
-      subject: {
-        type: String,
-        required: true, // Subject name (e.g., Math, Science)
-      },
+      subject:
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Subject", // Reference to the Subject model
+          required: true,
+        },
       topics: [
         {
           type: String, // Topics under the subject
         },
       ],
-    },
+    }
   ],
   evaluations: [
     {

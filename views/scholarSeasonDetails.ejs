@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include('./layout/bootstrap_css') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <%- include('./layout/nav') %>
+    
+    <div class="container">
+        <h4>Detail Scholar Season <%= scholarSeason.seasonName %></h4>
+        <hr>
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item option-tab">
+                <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="tab" data-bs-target="#scholarSeason">Scholar Season</a>
+            </li>
+            <% scholarSeason.classes.forEach((scholarClass, index) => { %>
+                <li class="nav-item option-tab">
+                    <a class="nav-link" href="#" data-bs-toggle="tab" data-bs-target="#class_<%= scholarClass.grade %>">Kelas <%= scholarClass.grade %></a>
+                </li>
+            <% }) %>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-3">
+            <!-- Scholar Season Tab Pane -->
+            <div class="tab-pane fade show active" id="scholarSeason">
+                <div class="form-control">
+                    <form id="edit_<%= scholarSeason._id %>" action="/scholarSeason?_method=PUT" method="post">
+                        <div class="mb-3">
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" name="_id" value="<%= scholarSeason._id %>">
+                            <label for="seasonName" class="col-form-label">Season:</label>
+                            <input type="text" class="form-control" id="seasonName" name="seasonName" value="<%= scholarSeason.seasonName %>">
+                        </div>
+                        <div class="mb-3">    
+                            <label for="startDate" class="col-form-label">Start Date:</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" value="<%= new Date(scholarSeason.startDate).toISOString().split('T')[0] %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="endDate" class="col-form-label">End Date:</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate" value="<%= new Date(scholarSeason.endDate).toISOString().split('T')[0] %>">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Class Tabs Pane -->
+            <% scholarSeason.classes.forEach((scholarClass, index) => { %>
+                <div class="tab-pane fade" id="class_<%= scholarClass.grade %>">
+                    <div class="form-control">
+                        <form id="edit_<%= scholarClass._id %>" action="/scholarClass?_method=PUT" method="post">
+                            <div class="mb-3">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="_id" value="<%= scholarClass._id %>">
+                                <!-- Form fields for syllabus goes here -->
+                                <!-- Add subject button -->
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal_<%= scholarClass._id %>">Add subject</button>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject_<%= scholarClass._id %>" class="col-form-label">Subjects:</label>
+                                    <ul class="list-group">
+                                        <% classes.forEach(kelas => { %>
+                                            <li class="list-group-item"><%= kelas.syllabus %></li>
+                                        <% }) %>
+                                    </ul>
+                                </div>
+
+                                <!-- Add subject modal -->
+                                <div class="modal fade" id="addSubjectModal_<%= scholarClass._id %>" tabindex="-1" aria-labelledby="addSubjectModalLabel_<%= scholarClass._id %>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addSubjectModalLabel_<%= scholarClass._id %>">Add Subject</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="addSubjectForm_<%= scholarClass._id %>" action="/scholarClass/<%= scholarClass._id %>/subject?_method=POST" method="post">
+                                                    <div class="mb-3">
+                                                        <label for="subjectName_<%= scholarClass._id %>" class="col-form-label">Subject Name:</label>
+                                                        <select name="subjectName" id="subjectName_<%= scholarClass._id %>" class="form-control">
+                                                            <% subjects.forEach((subject) => { %>
+                                                                <option value="<%= subject.name %>"><%= subject.name %></option>
+                                                            <% }) %>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Add</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <%- include('./layout/bootstrap_script') %>
+    <%- include('./layout/swal') %>
+    <script>
+        // Set Active Class for Tabs
+        function setActiveClass() {
+            const navItem = document.querySelectorAll('.option-tab a');
+            navItem.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItem.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+        setActiveClass();
+    </script>
+</body>
+</html>

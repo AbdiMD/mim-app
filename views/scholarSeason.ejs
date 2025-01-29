@@ -23,6 +23,7 @@
                     <p class="card-text"><%= scholarSeason[i].startDate %><br><%= scholarSeason[i].endDate %></p>
                 </div>
                 <div class="d-flex align-items-center gap-1 p-1">
+                    <a href="http://localhost:3000/scholarSeason/<%= scholarSeason[i]._id %>" class="btn btn-secondary">Details</a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editScholarSeason<%= scholarSeason[i]._id %>">Edit</button>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteScholarSeason<%= scholarSeason[i]._id %>" >Delete</button>
                 </div>
